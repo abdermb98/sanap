@@ -540,7 +540,7 @@ window.onload = highlightRows;
             let rawDate = filteredData[1][0]; 
             let formattedDate = formatDate(rawDate);
 
-            let headers = ["MATRICULE", "NOMBRE", "EQUIPE", "HOURS", "DATE", "TRANSPORT"];
+            let headers = ["FECHA", "ENCARGADO", "C.TRAB", "NOMBRE", "HORAS", "MATRICULE"];
 
             let ws = XLSX.utils.aoa_to_sheet([headers, ...filteredData]);
 
@@ -594,7 +594,7 @@ function downloadExcel1() {
             let rawDate = filteredData[1][0]; 
             let formattedDate = formatDate(rawDate);
 
-            let headers = ["MATRICULE", "NOMBRE", "EQUIPE", "HOURS", "DATE", "FINCA"];
+            let headers = ["FECHA", "ENCARGADO", "C.TRAB", "NOMBRE", "HORAS", "MATRICULE"];
 
             let ws = XLSX.utils.aoa_to_sheet([headers, ...filteredData]);
 
