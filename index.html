@@ -207,7 +207,6 @@
         <th>DATE</th>
         <th>FINCA</th>
         <th>TRANSPORT</th>
-         <th>PROCEDURE</th>
         
       </tr>
     </thead>
@@ -317,13 +316,13 @@ data.forEach(function(row, index) {
             let td = document.createElement("td");
 
           
-            if (colIndex === 4) {
+            if (colIndex === 0) {
                 let date = new Date(cell);
                 let day = String(date.getDate()).padStart(2, '0');
                 let month = String(date.getMonth() + 1).padStart(2, '0');
                 let year = date.getFullYear();
                 td.textContent = `${day}/${month}/${year}`;  
-            } else if (colIndex === 3) {  
+            } else if (colIndex === 4) {  
                 totalHours += parseFloat(cell) || 0;
                 td.textContent = cell;
             } else {
@@ -531,17 +530,17 @@ window.onload = highlightRows;
             
             let filteredData = data
                 .filter(row => row[5] === "N 10")
-                .map(row => [row[0], row[1], row[2], row[3], formatDate(row[4]), row[5], row[6]]);
+                .map(row => [formatDate(row[0]), row[1], row[2], row[3], row[4], row[6]]);
 
             if (filteredData.length < 2) {
                 alert("PAS DES DONNEES");
                 return;
             }
 
-            let rawDate = filteredData[1][4]; 
+            let rawDate = filteredData[1][0]; 
             let formattedDate = formatDate(rawDate);
 
-            let headers = ["MATRICULE", "NOMBRE", "EQUIPE", "HOURS", "DATE", "FINCA", "TRANSPORT"];
+            let headers = ["MATRICULE", "NOMBRE", "EQUIPE", "HOURS", "DATE", "TRANSPORT"];
 
             let ws = XLSX.utils.aoa_to_sheet([headers, ...filteredData]);
 
@@ -585,14 +584,14 @@ function downloadExcel1() {
             
             let filteredData = data
                 .filter(row => row[5] === "N 10")
-                .map(row => [row[0], row[1], row[2], row[3], formatDate(row[4]), row[5]]);
+                .map(row => [formatDate(row[0]), row[1], row[2], row[3], row[4], row[6]]);
 
             if (filteredData.length < 1) {
                 alert("PAS DES DONNEES");
                 return;
             }
 
-            let rawDate = filteredData[1][4]; 
+            let rawDate = filteredData[1][0]; 
             let formattedDate = formatDate(rawDate);
 
             let headers = ["MATRICULE", "NOMBRE", "EQUIPE", "HOURS", "DATE", "FINCA"];
