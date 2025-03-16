@@ -206,6 +206,7 @@
         <th>HOURS</th>
         <th>DATE</th>
         <th>FINCA</th>
+        <th>TRANSPORT</th>
         
       </tr>
     </thead>
@@ -328,10 +329,7 @@ data.forEach(function(row, index) {
                 td.textContent = cell; 
             }
 
-            if (colIndex === 6 && cell !== "") {
-                td.style.backgroundColor = "green";
-                td.style.color = "white";
-            }
+            
 
             if (colIndex === 7 && cell === "NON") {
              
