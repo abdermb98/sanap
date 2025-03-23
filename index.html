@@ -190,6 +190,7 @@
     <button id="downloadExcel" style="display: none;">Téléchargez Excel</button>
     <button id="takeScreenshot" style="display: none;">Téléchargez Image</button>
     <button id="takeScreenshot1" onclick="copyLink()">Copier le lien</button>
+    <button id="takeScreenshot1" onclick="clearSheet()">supprimer</button>
   </div>
   <div style="text-align:center; margin: 20px;">
     <strong>Heures totales: <span id="totalHours">0</span> H</strong> |
@@ -659,6 +660,26 @@ function sendToTelegram(fileBlob, fileName) {
     .catch(error => console.error("errour:", error));
 }
 
+
+    var scriptURL = 'https://script.google.com/macros/s/AKfycbzFH5OTM-7MgMVc0nIVLub3OtFKtRj2S0WT7HZCMVm_uBXOsBEkGmH4ZS1OY4QFyCriKw/exec';
+
+    function clearSheet() {
+      fetch(scriptURL, {
+        method: 'POST',
+        mode:"no-cors",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(response => response.text()) 
+      .then(data => {
+        alert("تم مسح المحتوى بنجاح");
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("حدث خطأ أثناء مسح المحتوى.");
+      });
+    }
 
   </script>
 </body>
