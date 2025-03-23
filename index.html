@@ -661,7 +661,7 @@ function sendToTelegram(fileBlob, fileName) {
 }
 
 
-    var scriptURL = 'https://script.google.com/macros/s/AKfycbzFH5OTM-7MgMVc0nIVLub3OtFKtRj2S0WT7HZCMVm_uBXOsBEkGmH4ZS1OY4QFyCriKw/exec';
+    var scriptURL = 'https://script.google.com/macros/s/AKfycbz1_hC7S1Qk0AvSZHf3DMoNX-YgMCXFvgVlnLXv1wvyyHeG--C6PlB8g6M2ofGyPMpClw/exec';
 
     function clearSheet() {
       fetch(scriptURL, {
@@ -673,11 +673,13 @@ function sendToTelegram(fileBlob, fileName) {
       })
       .then(response => response.text()) 
       .then(data => {
-        alert("تم مسح المحتوى بنجاح");
+        loadData();
+        alert("Le poinatge a été supprimé avec succès.");
+        
       })
       .catch(error => {
         console.error('Error:', error);
-        alert("حدث خطأ أثناء مسح المحتوى.");
+        alert("errour.");
       });
     }
 
