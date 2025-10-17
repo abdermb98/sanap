@@ -208,7 +208,7 @@
         <th>HORAS</th>
         <th>FINCA</th>
         <th>MATRICULE</th>
-        
+        <th>MATRICULE</th>
       </tr>
     </thead>
     <tbody></tbody>
@@ -299,57 +299,42 @@
       modal.style.display = "none";
     }
 
+
     function loadData() {
     fetch(webAppUrl + '?action=getData')
         .then(response => response.json())
         .then(data => {
-          let tableBody = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
-tableBody.innerHTML = '';  
+            let tableBody = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
+            tableBody.innerHTML = '';  
 
-let totalHours = 0;
-let rowCount = 0;
+            let totalHours = 0;
+            let rowCount = 0;
 
-data.forEach(function(row, index) {
-    if (row[5] === "N 10") {
-        let tr = document.createElement("tr");
+            data.forEach(function(row, index) {
+                if (row[5] === "N 10") { 
+                    let tr = document.createElement("tr");
 
-        row.forEach(function(cell, colIndex) {
-            let td = document.createElement("td");
+                    row.forEach(function(cell, colIndex) {
+                        let td = document.createElement("td");
 
-          
-            if (colIndex === 0) {
-                let date = new Date(cell);
-                let day = String(date.getDate()).padStart(2, '0');
-                let month = String(date.getMonth() + 1).padStart(2, '0');
-                let year = date.getFullYear();
-                td.textContent = `${day}/${month}/${year}`;  
-            } else if (colIndex === 4) {  
-                totalHours += parseFloat(cell) || 0;
-                td.textContent = cell;
-            } else {
-                td.textContent = cell; 
-            }
+                        // صياغة التاريخ في العمود الأول
+                        if (colIndex === 0) {
+                            let date = new Date(cell);
+                            td.textContent = `${String(date.getDate()).padStart(2,'0')}/${String(date.getMonth()+1).padStart(2,'0')}/${date.getFullYear()}`;
+                        } else if (colIndex === 4) {  
+                            totalHours += parseFloat(cell) || 0;
+                            td.textContent = cell;
+                        } else {
+                            td.textContent = cell; // باقي الأعمدة بما فيها العمود الثامن
+                        }
 
-            
+                        tr.appendChild(td);
+                    });
 
-            if (colIndex === 7 && cell === "NON") {
-             
-                tr.style.color = "red"; 
-                tr.style.fontSize = "20px";
-                tr.style.fontWeight = "bold"; 
-                
-            }
-            if (colIndex === 7) {
-                td.style.display = "none";  
-            }
-            tr.appendChild(td);
-        });
-
-
+                    // أزرار التعديل والحذف
                     let tdActions = document.createElement("td");
                     let editButton = document.createElement("button");
                     editButton.textContent = "Modifier";
-                    
                     editButton.classList.add("edit-button");
                     editButton.onclick = function() {
                         openModal(index, row);
@@ -365,15 +350,31 @@ data.forEach(function(row, index) {
                     tdActions.appendChild(editButton);
                     tdActions.appendChild(deleteButton);
                     tr.appendChild(tdActions);
-                    tableBody.appendChild(tr);
 
-                    rowCount++; 
+                    tableBody.appendChild(tr);
+                    rowCount++;
                 }
             });
 
             document.getElementById("totalHours").textContent = totalHours.toFixed(2);
             document.getElementById("rowCount").textContent = rowCount;
+
+            highlightRows(); // تلوين الصفوف بعد تحميل البيانات
         });
+}
+
+function highlightRows() {
+    var table = document.getElementById("dataTable");
+    var rows = table.getElementsByTagName("tr");
+
+    for (var i = 1; i < rows.length; i++) { // بدءًا من الصف الأول (تخطي العنوان)
+        var cells = rows[i].getElementsByTagName("td");
+        var situationCell = cells[7]; // العمود الثامن (SITUATION أو العمود الجديد)
+
+        if (situationCell && situationCell.innerText.trim() === "NON") {
+            rows[i].classList.add("highlight"); // إضافة الفئة لتلوين السطر
+        }
+    }
 }
 
 
@@ -531,7 +532,7 @@ window.onload = highlightRows;
             
             let filteredData = data
                 .filter(row => row[5] === "N 10")
-                .map(row => [formatDate(row[0]), row[1], row[2], row[3], row[4], row[6]]);
+                .map(row => [formatDate(row[0]), row[1], row[2], row[3], row[4], row[6], row[7]]);
 
             if (filteredData.length < 2) {
                 alert("PAS DES DONNEES");
@@ -585,7 +586,7 @@ function downloadExcel1() {
             
             let filteredData = data
                 .filter(row => row[5] === "N 10")
-                .map(row => [formatDate(row[0]), row[1], row[2], row[3], row[4], row[6]]);
+                .map(row => [formatDate(row[0]), row[1], row[2], row[3], row[4], row[6], row[7]]);
 
             if (filteredData.length < 1) {
                 alert("PAS DES DONNEES");
