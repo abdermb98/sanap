@@ -190,7 +190,8 @@
     <button id="downloadExcel" style="display: none;">Téléchargez Excel</button>
     <button id="takeScreenshot" style="display: none;">Téléchargez Image</button>
     <button id="takeScreenshot1" onclick="copyLink()">Copier le lien</button>
-    <button id="takeScreenshot1" onclick="clearSheet()">supprimer</button>
+    <button id="takeScreenshot1" onclick="showPasswordModalForClear()">supprimer</button>
+
   </div>
   <div style="text-align:center; margin: 20px;">
     <strong>Heures totales: <span id="totalHours">0</span> H</strong> |
@@ -253,7 +254,16 @@
       <button onclick="closeConfirmationModal()" class="edit-button">Annuler</button>
     </div>
   </div>
-
+  <div id="passwordModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closePasswordModal()">&times;</span>
+      <p>Entrez le mot de passe pour supprimer toutes les données :</p>
+      <input type="password" id="deletePassword" placeholder="Mot de passe">
+      <button class="delete-button" onclick="confirmClearWithPassword()">Confirmer</button>
+      <button class="edit-button" onclick="closePasswordModal()">Annuler</button>
+    </div>
+  </div>
+  
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas/dist/html2canvas.min.js"></script>
   <script>
@@ -683,6 +693,30 @@ function sendToTelegram(fileBlob, fileName) {
         alert("errour.");
       });
     }
+
+    var passwordModal = document.getElementById("passwordModal");
+const correctPassword = "1807"; 
+
+
+function showPasswordModalForClear() {
+    passwordModal.style.display = "block";
+}
+
+function closePasswordModal() {
+    passwordModal.style.display = "none";
+    document.getElementById("deletePassword").value = "";
+}
+
+function confirmClearWithPassword() {
+    const enteredPassword = document.getElementById("deletePassword").value;
+    if (enteredPassword === correctPassword) {
+        clearSheet(); // 
+        closePasswordModal();
+        alert("Toutes les données ont été supprimées !");
+    } else {
+        alert("Mot de passe incorrect ! Suppression annulée.");
+    }
+}
 
   </script>
 </body>
