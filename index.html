@@ -606,7 +606,7 @@ function downloadExcel1() {
             let rawDate = filteredData[1][0]; 
             let formattedDate = formatDate(rawDate);
 
-            let headers = ["FECHA", "ENCARGADO", "C.TRAB", "NOMBRE", "HORAS", "MATRICULE"];
+            let headers = ["FECHA", "ENCARGADO", "C.TRAB", "NOMBRE", "HORAS", "MATRICULE", "TELEPHONE"];
 
             let ws = XLSX.utils.aoa_to_sheet([headers, ...filteredData]);
 
